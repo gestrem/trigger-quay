@@ -1,0 +1,43 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2018-11-13T10:15:06Z'
+  labels:
+    app: cotd
+  name: cotd
+  namespace: quay-demo
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: DockerImage
+      name: quay.io/gestrem/cotd
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/gestrem/cotd2'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'httpd:2.4'
+        namespace: openshift
+    type: Source
+  triggers:
+    - imageChange:
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: 47d3f2be79968dc0
+      type: Generic
+    - github:
+        secret: 1e35c4632a3d308e
+      type: GitHub
+status:
+  lastVersion: 2

@@ -1,0 +1,24 @@
+kind: "DeploymentConfig"
+apiVersion: "v1"
+metadata:
+  name: "cotd"
+spec:
+  template: 
+    metadata:
+      labels:
+        name: "cotd"
+    spec:
+      containers:
+        - name: "cotd"
+          image: "quay.io/gestrem/cotd"
+          ports:
+            - containerPort: 8080
+              protocol: "TCP"
+  replicas: 1 
+  triggers:
+    - type: "ConfigChange" 
+  strategy: 
+    type: "Rolling"
+  paused: false 
+  revisionHistoryLimit: 2 
+  minReadySeconds: 0 
